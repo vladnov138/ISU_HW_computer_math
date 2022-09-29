@@ -63,3 +63,48 @@ def test_mul_matrix_row_scale():
     index = 2
     ans = [[1, 2, 3], [4, 5, 6], [14, 16, 18]]
     assert ans == mul_matrix_row_scale(a, num, index)
+
+
+def test_create_new_row():
+    a = [[1, 2, 3], [4, 5, 6]]
+    new_row = [10, 20, 30]
+    ans = [[1, 2, 3], [4, 5, 6], [10, 20, 30]]
+    assert ans == create_new_row(a, new_row)
+
+
+def test_del_row():
+    a = [[1, 2, 3], [4, 5, 6]]
+    index = 1
+    ans = [[1, 2, 3]]
+    assert ans == del_row(a, index)
+
+
+def test_add_matrix_row():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = [[10, 20, 30], [40, 50, 60]]
+    index_a = 0
+    index_b = 1
+    ans = [[41, 52, 63], [4, 5, 6]]
+    assert ans == add_matrix_row(a, b, index_a, index_b)
+
+
+def test_sub_matrix_row():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = [[10, 20, 30], [40, 50, 60]]
+    index_a = 1
+    index_b = 0
+    ans = [[1, 2, 3], [-6, -15, -24]]
+    assert ans == sub_matrix_row(a, b, index_a, index_b)
+
+
+def test_check_matrix():
+    a = [[1, 2, 3], [3, 4, 5]]
+    b = [[1, 2], [3, 4], [5, 6]]
+    ans = True
+    assert ans == check_matrix(a, b)
+
+
+def test_check_cols_len():
+    a = [[1, 2, 3], [3, 4]]
+    ans = True
+    assert ans == check_cols_len(a)
