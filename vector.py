@@ -12,22 +12,18 @@ def check_vec(a):
 def add_vec(a, b, do_copy=True):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
-    copy_a = []
+    copy_a = a
     if do_copy:
         copy_a = a[:]
-    else:
-        copy_a = a
     for i in range(len(a)):
         copy_a[i] += b[i]
     return copy_a
 
 
 def sub_vec(a, b, do_copy=True):
-    copy_b = []
+    copy_b = b
     if do_copy:
         copy_b = b[:]
-    else:
-        copy_b = b
     for i in range(len(b)):
         copy_b[i] *= -1
     return add_vec(a, copy_b)
@@ -45,11 +41,9 @@ def mul_vec(a, b):  # Скалярное произведение векторо
 def mul_scale(a, num, do_copy=True):  # Произведение вектора на скаляр
     if check_vec(a):
         raise ValueError("Некорректное значение!")
-    copy_a = []
+    copy_a = a
     if do_copy:
         copy_a = a[:]
-    else:
-        copy_a = a
     for i in range(len(a)):
         copy_a[i] *= num
     return copy_a
@@ -58,11 +52,9 @@ def mul_scale(a, num, do_copy=True):  # Произведение вектора 
 def div_scale(a, num, do_copy=True):
     if check_vec(a) or num == 0:
         raise ValueError("Некорректное значение!")
-    copy_a = []
+    copy_a = a
     if do_copy:
         copy_a = a[:]
-    else:
-        copy_a = a
     for i in range(len(a)):
         copy_a[i] /= num
     return copy_a
@@ -124,11 +116,9 @@ def ortogonal(a, b):
 def normal_vec(a, do_copy=True):
     if check_vec(a):
         raise ValueError("Некорректное значение!")
-    copy_a = []
+    copy_a = a
     if do_copy:
         copy_a = a[:]
-    else:
-        copy_a = a
     length = getlen(copy_a)
     for i in range(len(copy_a)):
         copy_a[i] /= length
@@ -138,11 +128,9 @@ def normal_vec(a, do_copy=True):
 def change_dir(a, do_copy=True):
     if check_vec(a):
         raise ValueError("Некорректное значение!")
-    copy_a = []
+    copy_a = a
     if do_copy:
         copy_a = a[:]
-    else:
-        copy_a = a
     for i in range(len(a)):
         copy_a[i] *= -1
     return copy_a
