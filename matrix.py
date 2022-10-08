@@ -25,7 +25,7 @@ def is_square(a):
     return True
 
 
-def matrix_getlen(a):
+def matrix_get_len(a):
     return len(a), len(a[0])
 
 
@@ -54,7 +54,7 @@ def sub_matrix(a, b, do_copy=True):
 def trans_matrix(a):
     if check_cols_len(a):
         raise ValueError("Некорректная размерность матрицы")
-    n, m = matrix_getlen(a)
+    n, m = matrix_get_len(a)
     new_matrix = [[0 for _ in range(n)] for _ in range(m)]
     for i in range(n):
         for j in range(m):
@@ -77,8 +77,8 @@ def mul_matrix_scale(a, num, do_copy=True):
 def mul_matrix(a, b):
     if check_cols_len(a) or check_cols_len(b):
         raise ValueError("Некорректная размерность матриц")
-    n_a, m_a = matrix_getlen(a)
-    n_b, m_b = matrix_getlen(b)
+    n_a, m_a = matrix_get_len(a)
+    n_b, m_b = matrix_get_len(b)
     if m_a != n_b:
         raise ValueError("Некорректная размерность матрицы для умножения!")
     new_matrix = [[0 for _ in range(n_a)] for _ in range(m_a)]

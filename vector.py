@@ -60,25 +60,25 @@ def div_scale(a, num, do_copy=True):
     return copy_a
 
 
-def collinear(a, b):
+def is_collinear(a, b):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
     return abs(cos_vecs(a, b)) == 1
 
 
-def vec_dir(a, b):
+def is_vec_dir(a, b):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
     return cos_vecs(a, b) == 1
 
 
-def vec_undir(a, b):
+def is_vec_undir(a, b):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
     return cos_vecs(a, b) == -1
 
 
-def getlen(a):
+def get_len(a):
     if check_vec(a):
         raise ValueError("Некорректное значение!")
     result = 0
@@ -90,9 +90,8 @@ def getlen(a):
 def equal_vecs(a, b):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
-    c = sub_vec(a, b)
-    for i in range(len(c)):
-        if c[i] != 0:
+    for i in range(len(a)):
+        if a[i] != b[i]:
             return False
     return True
 
@@ -100,14 +99,13 @@ def equal_vecs(a, b):
 def equal_vecs_eps(a, b, eps):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
-    c = sub_vec(a, b)
-    for i in range(len(c)):
-        if abs(c[i]) >= eps:
+    for i in range(len(a)):
+        if abs(a[i] - b[i]) >= eps:
             return False
     return True
 
 
-def ortogonal(a, b):
+def is_orthogonal(a, b):
     if check_vecs(a, b):
         raise ValueError("Некорректное значение!")
     return cos_vecs(a, b) == 0
@@ -119,7 +117,7 @@ def normal_vec(a, do_copy=True):
     copy_a = a
     if do_copy:
         copy_a = a[:]
-    length = getlen(copy_a)
+    length = get_len(copy_a)
     for i in range(len(copy_a)):
         copy_a[i] /= length
     return copy_a
@@ -137,24 +135,24 @@ def change_dir(a, do_copy=True):
 
 
 def cos_vecs(a, b):
-    if check_vecs(a, b) or getlen(a) == 0 or getlen(b) == 0:
+    if check_vecs(a, b) or get_len(a) == 0 or get_len(b) == 0:
         raise ValueError("Некорректное значение!")
-    return mul_vec(a, b) / (getlen(a) * getlen(b))
+    return mul_vec(a, b) / (get_len(a) * get_len(b))
 
 
-def getangle(a, b):
-    if check_vecs(a, b) or getlen(a) == 0 or getlen(b) == 0:
+def get_angle(a, b):
+    if check_vecs(a, b) or get_len(a) == 0 or get_len(b) == 0:
         raise ValueError("Некорректное значение!")
-    return math.acos(cos_vecs(a, b)) * 180 / math.pi # Перевод из радиан в градусы
+    return math.acos(cos_vecs(a, b)) * 180 / math.pi  # Перевод из радиан в градусы
 
 
 def proj_vec(a, b):
-    if check_vecs(a, b) or getlen(b) == 0:
+    if check_vecs(a, b) or get_len(b) == 0:
         raise ValueError("Некорректное значение!")
-    return mul_scale(b, proj_scale(a, b) / getlen(b))
+    return mul_scale(b, proj_scale(a, b) / get_len(b))
 
 
 def proj_scale(a, b):
-    if check_vecs(a, b) or getlen(b) == 0:
+    if check_vecs(a, b) or get_len(b) == 0:
         raise ValueError("Некорректное значение!")
-    return mul_vec(a, b) / getlen(b)
+    return mul_vec(a, b) / get_len(b)

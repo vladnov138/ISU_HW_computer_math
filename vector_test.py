@@ -22,11 +22,11 @@ def test_mul_vec():
     assert ans == mul_vec(a, b)
 
 
-def test_getangle():
+def test_get_angle():
     a = [3, 4]
     b = [4, 3]
     ans = 16.26
-    assert int(ans * 100) == int(getangle(a, b) * 100)
+    assert int(ans * 100) == int(get_angle(a, b) * 100)
 
 
 def test_proj_scale():
@@ -57,25 +57,25 @@ def test_div_scale():
     assert ans == div_scale(a, num)
 
 
-def test_collinear():
+def test_is_collinear():
     a = [2, 6, -3]
     b = [6, 18, -9]
     ans = True
-    assert ans == collinear(a, b)
+    assert ans == is_collinear(a, b)
 
 
 def test_dir():
     a = [2, 6, -3]
     b = [6, 18, -9]
     ans = True
-    assert ans == vec_dir(a, b)
+    assert ans == is_vec_dir(a, b)
 
 
 def test_undir():
     a = [2, 6, -3]
     b = [6, 18, -9]
     ans = False
-    assert ans == vec_undir(a, b)
+    assert ans == is_vec_undir(a, b)
 
 
 def test_normal_vec():
