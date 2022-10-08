@@ -18,6 +18,13 @@ def check_cols_len(a):
     return False
 
 
+def is_square(a):
+    for i in a:
+        if len(i) != len(a):
+            return False  # True = ValueError
+    return True
+
+
 def matrix_getlen(a):
     return len(a), len(a[0])
 
@@ -168,3 +175,25 @@ def del_row(a, index, do_copy=True):
         copy_a = a[:]
     del copy_a[index]
     return copy_a
+
+
+def count_determinant(a):
+    if not is_square(a):
+        raise ValueError("Матрица не является квадратной")
+    l = [[0 for j in range(len(a))] for i in range(len(a))]
+    u = l[:]
+    det = 1
+    for i in range(len(a)):
+        for j in range(len(a)):
+            c = 0
+            if i <= j:
+                for k in range(i + 1):
+                    c += l[i][k] * u[k][j]
+                u[i][j] = a[i][j] - c
+            else:
+                for k in range(i + 1):
+                    c += l[i][k] * u[k][j]
+                l[i][j] = (a[i][j] - c) / u[j][j]
+            if i == j:
+                det *= l[i][j]
+    return det

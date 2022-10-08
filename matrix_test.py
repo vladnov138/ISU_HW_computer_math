@@ -108,3 +108,9 @@ def test_check_cols_len():
     a = [[1, 2, 3], [3, 4]]
     ans = True
     assert ans == check_cols_len(a)
+
+
+def test_count_determinant():
+    a = [[5, 4, 3], [21, -2, 6], [5, 4, 0]]
+    ans = 282
+    assert ans == count_determinant(a)
