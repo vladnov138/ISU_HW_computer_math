@@ -112,9 +112,10 @@ def mul_matrix(a, b):
     return new_matrix
 
 
-def get_row(a, index):
+def get_row(a, index, do_copy=True):
     """Return a row by index"""
     check_index(a, index)
+    vec.get_copy(a[index], do_copy)
     return a[index]
 
 
@@ -180,20 +181,20 @@ def del_row(a, index, do_copy=True):
 def count_determinant(a):
     """Return a matrix determinant by LU decomposition"""
     is_square(a)
-    l = [[0 for j in range(len(a))] for i in range(len(a))]
-    u = l[:]
+    l = [[0 for j in range(len(a))] for i in range(len(a))]  # lower part of matrix
+    u = copy.deepcopy(l)  # upper part of matrix
     det = 1
     for i in range(len(a)):
         for j in range(len(a)):
-            c = 0
+            s = 0  # sum
             if i <= j:
                 for k in range(i + 1):
-                    c += l[i][k] * u[k][j]
-                u[i][j] = a[i][j] - c
+                    s += l[i][k] * u[k][j]
+                u[i][j] = a[i][j] - s
             else:
                 for k in range(i + 1):
-                    c += l[i][k] * u[k][j]
-                l[i][j] = (a[i][j] - c) / u[j][j]
+                    s += l[i][k] * u[k][j]
+                l[i][j] = (a[i][j] - s) / u[j][j]
             if i == j:
                 det *= l[i][j]
     return det

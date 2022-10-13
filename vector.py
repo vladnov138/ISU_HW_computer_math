@@ -1,4 +1,3 @@
-import copy
 import math
 
 
@@ -19,7 +18,7 @@ def check_len_vec(a):
 def get_copy(a, do_copy):
     """Return a copy of vector if do_copy is true"""
     if do_copy:
-        return copy.deepcopy(a)
+        return a[:]
     return a
 
 
