@@ -89,10 +89,3 @@ def test_cos_vecs():
     b = [4, 3]
     ans = 0.96
     assert ans == cos_vecs(a, b)
-
-
-def test_check():
-    a = [1]
-    b = [1, 2]
-    ans = True
-    assert ans == check_vecs(a, b)

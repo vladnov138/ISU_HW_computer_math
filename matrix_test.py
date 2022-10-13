@@ -97,20 +97,18 @@ def test_sub_matrix_row():
     assert ans == sub_matrix_row(a, b, index_a, index_b)
 
 
-def test_check_matrix():
-    a = [[1, 2, 3], [3, 4, 5]]
-    b = [[1, 2], [3, 4], [5, 6]]
-    ans = True
-    assert ans == check_matrix(a, b)
-
-
-def test_check_cols_len():
-    a = [[1, 2, 3], [3, 4]]
-    ans = True
-    assert ans == check_cols_len(a)
-
-
 def test_count_determinant():
     a = [[5, 4, 3], [21, -2, 6], [5, 4, 0]]
     ans = 282
     assert ans == count_determinant(a)
+
+
+def test_get_copy():
+    a = [[1, 2, 3], [4, 5, 6]]
+    b = [[10, 20, 30], [40, 50, 60]]
+    num = 50
+    ans = a.copy()
+    add_matrix(a, b)
+    sub_matrix(a, b)
+    mul_matrix_scale(a, num)
+    assert ans == a

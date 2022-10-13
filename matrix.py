@@ -1,59 +1,83 @@
+import copy
+
 import vector as vec
 
 
 def check_matrix(a, b):
-    if len(a) != len(b) or check_cols_len(a) or check_cols_len(b):
-        return True  # True = ValueError
+    """Return a ValueError if the matrices lengths are different or matrices columns lengths
+    are different"""
+    if len(a) != len(b):
+        raise ValueError("The matrices lengths are different!")
+    check_row_lens(a)
+    check_row_lens(b)
     for i in range(len(a)):
         if len(a[i]) != len(b[i]):
-            return True  # True = ValueError
-    return False
+            raise ValueError("The matrices columns length are different!")
 
 
-def check_cols_len(a):
+def check_row_lens(a):
+    """Return a ValueError if the matrix rows lengths are different"""
     len_value = len(a[0])
     for i in range(1, len(a)):
         if len_value != len(a[i]):
-            return True  # True = ValueError
-    return False
+            raise ValueError(f"The matrix rows lengths are different: {a}")
+
+
+def check_index(a, index):
+    """Return a ValueError if the index is invalid"""
+    if len(a) <= index or index < 0:
+        raise ValueError("Index is invalid")
+    check_row_lens(a)
+
+
+def check_rows(a, b, index_a, index_b):
+    """Return a ValueError if matrices rows lengths are different"""
+    check_index(a, index_a)
+    check_index(b, index_b)
+    if len(a[index_a]) != len(b[index_b]):
+        raise ValueError("Row lengths are different!")
+
+
+def get_copy(a, do_copy):
+    """Return a copy of matrix if do_copy is true"""
+    if do_copy:
+        return copy.deepcopy(a)
+    return a
 
 
 def is_square(a):
+    """Return a ValueError if the matrix isn't square"""
     for i in a:
         if len(i) != len(a):
-            return False  # True = ValueError
-    return True
+            raise ValueError(f"The matrix isn't square: {a}")
 
 
 def matrix_get_len(a):
+    """Return a matrix column length and a matrix row length"""
     return len(a), len(a[0])
 
 
 def add_matrix(a, b, do_copy=True):
-    if check_matrix(a, b):
-        raise ValueError("Некорректная размерность матриц")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
+    """Return a new matrix by sum two matrices"""
+    check_matrix(a, b)
+    a = get_copy(a, do_copy)
     for i in range(len(a)):
-        copy_a[i] = vec.add_vec(a[i], b[i], do_copy)
-    return copy_a
+        a[i] = vec.add_vec(a[i], b[i], do_copy)
+    return a
 
 
 def sub_matrix(a, b, do_copy=True):
-    if check_matrix(a, b):
-        raise ValueError("Некорректная размерность матриц")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
+    """Return a new matrix by subtracting two matrices"""
+    check_matrix(a, b)
+    a = get_copy(a, do_copy)
     for i in range(len(a)):
-        copy_a[i] = vec.sub_vec(a[i], b[i], do_copy)
-    return copy_a
+        a[i] = vec.sub_vec(a[i], b[i], do_copy)
+    return a
 
 
 def trans_matrix(a):
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матрицы")
+    """Return a new matrix by transposing the matrix"""
+    check_row_lens(a)
     n, m = matrix_get_len(a)
     new_matrix = [[0 for _ in range(n)] for _ in range(m)]
     for i in range(n):
@@ -63,24 +87,23 @@ def trans_matrix(a):
 
 
 def mul_matrix_scale(a, num, do_copy=True):
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матрицы")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
+    """Return a new matrix by multiplying the matrix and the scalar"""
+    check_row_lens(a)
+    a = get_copy(a, do_copy)
     for i in range(len(a)):
         for j in range(len(a[i])):
-            copy_a[i][j] *= num
-    return copy_a
+            a[i][j] *= num
+    return a
 
 
 def mul_matrix(a, b):
-    if check_cols_len(a) or check_cols_len(b):
-        raise ValueError("Некорректная размерность матриц")
+    """Return a new matrix by multiplying two matrices"""
+    check_row_lens(a)
+    check_row_lens(b)
     n_a, m_a = matrix_get_len(a)
     n_b, m_b = matrix_get_len(b)
     if m_a != n_b:
-        raise ValueError("Некорректная размерность матрицы для умножения!")
+        raise ValueError("Invalid matrices lengths for multiplying!")
     new_matrix = [[0 for _ in range(n_a)] for _ in range(m_a)]
     tr_matrix = trans_matrix(b)
     for i in range(len(a)):
@@ -90,96 +113,73 @@ def mul_matrix(a, b):
 
 
 def get_row(a, index):
-    if len(a) <= index or index < 0:
-        raise ValueError("Индекс не соответствует размерам матрицы")
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матрицы")
+    """Return a row by index"""
+    check_index(a, index)
     return a[index]
 
 
 def get_col(a, index):
-    if len(a[0]) <= index or index < 0:
-        raise ValueError("Индекс не соответствует размерам матрицы")
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матрицы")
+    """Return a column by index"""
+    check_index(a, index)
     return get_row(trans_matrix(a), index)
 
 
 def change_row(a, start_index, new_index, do_copy=True):
-    if len(a) <= start_index or len(a) <= new_index or start_index < 0 or new_index < 0:
-        raise ValueError("Индексы не соответствуют размерам матрицы")
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матрицы")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
-    t = copy_a[start_index]
-    copy_a[start_index] = copy_a[new_index]
-    copy_a[new_index] = t
-    return copy_a
+    """Swap two rows by their indexes and return a new matrix"""
+    check_index(a, start_index)
+    check_index(a, new_index)
+    a = get_copy(a, do_copy)
+    t = a[start_index]
+    a[start_index] = a[new_index]
+    a[new_index] = t
+    return a
 
 
 def mul_matrix_row_scale(a, num, index, do_copy=True):
-    if len(a) <= index or index < 0:
-        raise ValueError("Индекс не соответствует размерам матрицы")
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матрицы")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
-    copy_a[index] = vec.mul_scale(copy_a[index], num, do_copy)[:]
-    return copy_a
+    """Multiply matrix row by index and return the new matrix with result row"""
+    check_index(a, index)
+    a = get_copy(a, do_copy)
+    a[index] = vec.mul_scale(a[index], num, do_copy)[:]
+    return a
 
 
 def add_matrix_row(a, b, index_a, index_b, do_copy=True):
-    if len(a) <= index_a or len(b) <= index_b or index_b < 0 or index_a < 0:
-        raise ValueError("Индексы не соответствуют размерам матрицы")
-    if check_cols_len(a) or check_cols_len(b) or len(a[index_a]) != len(b[index_b]):
-        raise ValueError("Некорректная размерность матриц")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
-    copy_a[index_a] = vec.add_vec(copy_a[index_a], b[index_b], do_copy)
-    return copy_a
+    """Summarize matrices rows by their indexes and return the new matrix with result row"""
+    check_rows(a, b, index_a, index_b)
+    a = get_copy(a, do_copy)
+    a[index_a] = vec.add_vec(a[index_a], b[index_b], do_copy)
+    return a
 
 
 def sub_matrix_row(a, b, index_a, index_b, do_copy=True):
-    if len(a) <= index_a or len(b) <= index_b or index_b < 0 or index_a < 0:
-        raise ValueError("Индексы не соответствуют размерам матрицы")
-    if check_cols_len(a) or check_cols_len(b) or len(a[index_a]) != len(b[index_b]):
-        raise ValueError("Некорректная размерность матриц")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
-    copy_a[index_a] = vec.sub_vec(copy_a[index_a], b[index_b], do_copy)
-    return copy_a
+    """Subtract matrices rows by their indexes and returns the new matrix with result row"""
+    check_rows(a, b, index_a, index_b)
+    a = get_copy(a, do_copy)
+    a[index_a] = vec.sub_vec(a[index_a], b[index_b], do_copy)
+    return a
 
 
 def create_new_row(a, new_row, do_copy=True):
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матриц")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
-    copy_a.append(new_row)
-    return copy_a
+    """Create new row to the matrix and return the new matrix with new row"""
+    check_row_lens(a)
+    if len(a[0]) != len(new_row):
+        raise ValueError("Row lengths are different!")
+    a = get_copy(a, do_copy)
+    a.append(new_row)
+    return a
 
 
 def del_row(a, index, do_copy=True):
-    if len(a) <= index or index < 0:
-        raise ValueError("Индекс не соответствует размерам матрицы")
-    if check_cols_len(a):
-        raise ValueError("Некорректная размерность матриц")
-    copy_a = a
-    if do_copy:
-        copy_a = a[:]
-    del copy_a[index]
-    return copy_a
+    """Delete the matrix row by index and return the new matrix without this row"""
+    check_index(a, index)
+    a = get_copy(a, do_copy)
+    del a[index]
+    return a
 
 
 def count_determinant(a):
-    if not is_square(a):
-        raise ValueError("Матрица не является квадратной")
+    """Return a matrix determinant by LU decomposition"""
+    is_square(a)
     l = [[0 for j in range(len(a))] for i in range(len(a))]
     u = l[:]
     det = 1
