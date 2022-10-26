@@ -104,10 +104,10 @@ def mul_matrix(a, b):
     n_b, m_b = matrix_get_len(b)
     if m_a != n_b:
         raise ValueError("Invalid matrices lengths for multiplying!")
-    new_matrix = [[0 for _ in range(n_a)] for _ in range(m_a)]
+    new_matrix = [[0 for _ in range(m_b)] for _ in range(n_a)]
     tr_matrix = trans_matrix(b)
     for i in range(len(a)):
-        for j in range(len(a[i])):
+        for j in range(len(new_matrix[0])):
             new_matrix[i][j] = vec.mul_vec(a[i], tr_matrix[j])
     return new_matrix
 
@@ -133,6 +133,15 @@ def change_row(a, start_index, new_index, do_copy=True):
     t = a[start_index]
     a[start_index] = a[new_index]
     a[new_index] = t
+    return a
+
+
+def change_column(a, start_index, new_index, do_copy=True):
+    """Swap two columns by their indexes and return a new matrix"""
+    check_index(a, start_index)
+    check_index(a, new_index)
+    a = get_copy(a, do_copy)
+    a = trans_matrix(change_row(trans_matrix(a), start_index, new_index, do_copy=False))
     return a
 
 
@@ -196,5 +205,5 @@ def count_determinant(a):
                     s += l[i][k] * u[k][j]
                 l[i][j] = (a[i][j] - s) / u[j][j]
             if i == j:
-                det *= l[i][j]
+                det *= u[i][j]
     return det
