@@ -15,16 +15,16 @@ def sort_rows(a):
 def solve_slae(a, do_copy=True, reversed=False):
     """Return a result of solving a system of linear algebraic equations"""
     mx.is_square(mx.trans_matrix(a)[:-1])
-    c = mx.get_copy(a, do_copy)
+    a = mx.get_copy(a, do_copy)
     for i in range(0, len(a)):
-        mx.mul_matrix_row_scale(c, 1 / c[i][i], i, do_copy=False)
+        mx.mul_matrix_row_scale(a, 1 / a[i][i], i, do_copy=False)
         for j in range(i + 1, len(a)):
-            b = mx.mul_matrix_row_scale(c, c[j][i], i)
-            mx.sub_matrix_row(c, b, j, i, do_copy=False)
-        sort_rows(c)
+            b = mx.mul_matrix_row_scale(a, a[j][i], i)  # multiplied row
+            mx.sub_matrix_row(a, b, j, i, do_copy=False)
+        sort_rows(a)  # sort by diagonal
     if not reversed:
-        return solve_slae(reverse(c), do_copy, True)
-    return [mx.trans_matrix(c)[-1][::-1]]  # reverse the matrix back
+        return solve_slae(reverse(a), do_copy, True)
+    return mx.trans_matrix(a)[-1][::-1]  # reverse the matrix back and return the last column
 
 
 def reverse(a):
