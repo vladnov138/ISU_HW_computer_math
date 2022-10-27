@@ -1,6 +1,6 @@
 import copy
 
-import vector as vec
+from vector import vector as vec
 
 
 def check_matrix(a, b):

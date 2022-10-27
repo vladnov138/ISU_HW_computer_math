@@ -1,4 +1,4 @@
-import matrix as mx
+from matrix import matrix as mx
 
 
 def sort_rows(a):
