@@ -26,3 +26,8 @@ def test_3():
     x = mx.trans_matrix([solve_slae(c)])
     res = mx.trans_matrix(mx.mul_matrix(a, x))
     assert res[0] == b
+
+def test_4():
+    a = [[-1, 2, 6], [3, -6, 0], [1, 0, 6]]
+    b = [15, -9, 5]
+    #Put your code here
