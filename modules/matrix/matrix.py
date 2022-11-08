@@ -1,6 +1,6 @@
 import copy
 
-from vector import vector as vec
+import modules.vector.vector as vec
 
 
 def check_matrix(a, b):
@@ -192,6 +192,8 @@ def count_determinant(a):
     is_square(a)
     l = [[0 for j in range(len(a))] for i in range(len(a))]  # lower part of matrix
     u = copy.deepcopy(l)  # upper part of matrix
+    for i in range(len(l)):
+        l[i][i] = 1
     det = 1
     for i in range(len(a)):
         for j in range(len(a)):
@@ -201,8 +203,9 @@ def count_determinant(a):
                     s += l[i][k] * u[k][j]
                 u[i][j] = a[i][j] - s
             else:
-                for k in range(i + 1):
+                for k in range(j + 1):
                     s += l[i][k] * u[k][j]
+                if u[j][j] == 0: u[j][j] = 1
                 l[i][j] = (a[i][j] - s) / u[j][j]
             if i == j:
                 det *= u[i][j]
