@@ -6,25 +6,26 @@ def sort_rows(a):
     for i in range(len(a[0])):
         index_a = -1
         for j in range(i, len(a)):
-            if a[j][i] == 0:
+            if a[j][i] == 0 and index_a == -1:
                 index_a = j
             elif index_a != -1:
                 mx.change_row(a, index_a, j, do_copy=False)
-    # print('r', a)
+                index_a = -1
+                break
+            elif a[j][i] != 0:
+                break
+        if index_a != -1:
+            raise ValueError("There is no solution")
 
 
 def solve_slae(*matrices, reversed=False):
     """Return a result of solving a system of linear algebraic equations"""
+    if len(matrices) == 0 or len(matrices) > 2:
+        raise ValueError("Invalid number of arguments")
     a = matrices[0]
-    if len(matrices) != 2 and not reversed:
-        raise ValueError(f"Expected two matrices, but {len(matrices)} were given")
-    if len(matrices) != 1 and reversed:
-        raise ValueError(f"Expected one matrix, but {len(matrices)} were given")
     if len(matrices) == 2:
-        b = matrices[1]
-        mx.is_square(mx.trans_matrix(a))
-        for row in b:
-            a = mx.trans_matrix(mx.create_new_row(mx.trans_matrix(a), row))
+        a = mx.hstack(a, matrices[1])
+    sort_rows(a)
     for i in range(0, len(a)):
         mx.mul_matrix_row_scale(a, 1 / a[i][i], i, do_copy=False)
         for j in range(i + 1, len(a)):

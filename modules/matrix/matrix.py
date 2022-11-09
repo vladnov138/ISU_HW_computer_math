@@ -194,6 +194,7 @@ def count_determinant(a):
     u = copy.deepcopy(l)  # upper part of matrix
     for i in range(len(l)):
         l[i][i] = 1
+
     det = 1
     for i in range(len(a)):
         for j in range(len(a)):
@@ -202,11 +203,27 @@ def count_determinant(a):
                 for k in range(i + 1):
                     s += l[i][k] * u[k][j]
                 u[i][j] = a[i][j] - s
+                print(a[i][j], s)
             else:
                 for k in range(j + 1):
                     s += l[i][k] * u[k][j]
-                if u[j][j] == 0: u[j][j] = 1
-                l[i][j] = (a[i][j] - s) / u[j][j]
+                if u[j][j] != 0:
+                    l[i][j] = (a[i][j] - s) / u[j][j]
             if i == j:
                 det *= u[i][j]
     return det
+
+
+def hstack(a, b):
+    """Return united matrix"""
+    for row in b:
+        a = trans_matrix(create_new_row(trans_matrix(a), row))
+    return a
+
+
+def get_identity_matrix(size):
+    """Return identity matrix"""
+    identity = [[0 for j in range(size)] for i in range(size)]
+    for i in range(size):
+        identity[i][i] = 1
+    return identity
