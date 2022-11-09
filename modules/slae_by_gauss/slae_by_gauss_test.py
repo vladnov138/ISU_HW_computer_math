@@ -1,5 +1,5 @@
 import modules.matrix.matrix as mx
-import modules.slae_by_gauss.slae_gauss as gauss
+import modules.slae_by_gauss.slae_by_gauss as gauss
 
 
 def test_1():
