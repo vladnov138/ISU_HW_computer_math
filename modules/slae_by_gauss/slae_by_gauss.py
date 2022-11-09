@@ -6,13 +6,13 @@ def sort_rows(a):
     for i in range(len(a[0])):
         index_a = -1
         for j in range(i, len(a)):
-            if a[j][i] == 0 and index_a == -1:
+            if a[i][i] != 0:
+                break
+            elif index_a == -1:
                 index_a = j
-            elif index_a != -1:
+            else:
                 mx.change_row(a, index_a, j, do_copy=False)
                 index_a = -1
-                break
-            elif a[j][i] != 0:
                 break
         if index_a != -1:
             raise ValueError("There is no solution")
