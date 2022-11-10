@@ -1,4 +1,4 @@
-import modules.vector.vector as vec
+import vector.vector as vec
 
 
 def test_add_vectors():
