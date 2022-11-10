@@ -1,4 +1,4 @@
-import matrix as mx
+import modules.matrix.matrix as mx
 
 
 def test_mul_matrix_scale():

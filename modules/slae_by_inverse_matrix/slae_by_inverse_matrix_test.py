@@ -1,7 +1,7 @@
 import pytest
 
 import modules.matrix.matrix as mx
-import slae_by_inverse_matrix as inv_m
+import modules.slae_by_inverse_matrix.slae_by_inverse_matrix as inv_m
 
 EPS = 1e-10
 
