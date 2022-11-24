@@ -1,5 +1,3 @@
-import copy
-
 import vector.vector as vec
 
 
@@ -38,10 +36,10 @@ def check_rows(a, b, index_a, index_b):
         raise ValueError("Row lengths are different!")
 
 
-def get_copy(a, do_copy):
+def get_copy(a, do_copy=True):
     """Return a copy of matrix if do_copy is true"""
     if do_copy:
-        return copy.deepcopy(a)
+        return [elem[:] for elem in a]
     return a
 
 
@@ -191,10 +189,9 @@ def count_determinant(a):
     """Return a matrix determinant by LU decomposition"""
     is_square(a)
     l = [[0 for j in range(len(a))] for i in range(len(a))]  # lower part of matrix
-    u = copy.deepcopy(l)  # upper part of matrix
+    u = get_copy(l)  # upper part of matrix
     for i in range(len(l)):
         l[i][i] = 1
-
     det = 1
     for i in range(len(a)):
         for j in range(len(a)):
@@ -219,6 +216,21 @@ def hstack(a, b):
     for row in b:
         a = trans_matrix(create_new_row(trans_matrix(a), row))
     return a
+
+
+def stack(a, b):
+    """Return united matrix"""
+    for row in b:
+        a = create_new_row(a, row)
+    return a
+
+
+def equal_matrix_eps(a, b, eps):
+    check_matrix(a, b)
+    for i in range(len(a)):
+        if not vec.equal_vecs_eps(a[i], b[i], eps):
+            return False
+    return True
 
 
 def get_identity_matrix(size):
