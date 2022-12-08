@@ -41,5 +41,5 @@ def reverse(a):
     """Reverse matrix row and column and return a new matrix"""
     a = a[::-1]
     for i in range(len(a) // 2):
-        a = mx.change_column(a, i, len(a) - i - 1, do_copy=False)
+        a = mx.change_column(a, i, len(a) - i - 1)
     return a

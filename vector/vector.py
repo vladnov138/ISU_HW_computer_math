@@ -11,7 +11,7 @@ def check_vecs(a, b):
 
 def check_len_vec(a):
     """Return a ValueError if vectors lengths are invalid"""
-    if len(a) < 2:
+    if len(a) < 1:
         raise ValueError("Invalid vector length")
 
 

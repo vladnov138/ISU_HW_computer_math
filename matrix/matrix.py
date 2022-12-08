@@ -28,6 +28,13 @@ def check_index(a, index):
     check_row_lens(a)
 
 
+def check_index_col(a, index):
+    """Returns a ValueError if the column index is invalid"""
+    if (len(a[0])) <= index or index < 0:
+        raise ValueError("Index is invalid")
+    check_row_lens(a)
+
+
 def check_rows(a, b, index_a, index_b):
     """Return a ValueError if matrices rows lengths are different"""
     check_index(a, index_a)
@@ -134,11 +141,10 @@ def change_row(a, start_index, new_index, do_copy=True):
     return a
 
 
-def change_column(a, start_index, new_index, do_copy=True):
+def change_column(a, start_index, new_index):
     """Swap two columns by their indexes and return a new matrix"""
-    check_index(a, start_index)
-    check_index(a, new_index)
-    a = get_copy(a, do_copy)
+    check_index_col(a, start_index)
+    check_index_col(a, new_index)
     a = trans_matrix(change_row(trans_matrix(a), start_index, new_index, do_copy=False))
     return a
 
