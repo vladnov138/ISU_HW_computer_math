@@ -37,10 +37,10 @@ def test_interpolate_piece_line():
     assert mx.equal_matrix_eps(ans, res, EPS)
 
 
-def test_get_lagranzh_polinomial():
+def test_get_lagrange_polinomial():
     data_xy = [[1, 2], [3, 4], [3.5, 3], [6, 7]]
     for i in range(len(data_xy)):
-        assert get_lagranzh_polinomial(data_xy, data_xy[i][0]) == data_xy[i][1]
+        assert get_lagrange_polinomial(data_xy, data_xy[i][0]) == data_xy[i][1]
 
 
 def test_get_product():

@@ -49,8 +49,8 @@ def interpolate_piece_line(data_xy, indent=3):
     return xy_matrix
 
 
-def get_lagranzh_polinomial(data_xy, x):
-    """Return lagranzh polinomial value"""
+def get_lagrange_polinomial(data_xy, x):
+    """Return lagrange polinomial value"""
     s = 0
     for i in range(len(data_xy)):
         s += data_xy[i][1] * get_product(data_xy, i, x)
