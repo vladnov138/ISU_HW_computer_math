@@ -51,12 +51,12 @@ def show_interpolate_piece_line(data_xy):
 
 def get_x(data_xy):
     """Returns x array from data_xy"""
-    return mx.trans_matrix(data_xy)[0][:]
+    return mx.trans_matrix(data_xy)[-2][:]
 
 
 def get_y(data_xy):
     """Returns y array from data_xy"""
-    return mx.trans_matrix(data_xy)[1][:]
+    return mx.trans_matrix(data_xy)[-1][:]
 
 
 def show_lagrange(data_xy, indent=1):
